@@ -44,6 +44,7 @@
   .display{font-family:'Space Grotesk',sans-serif;}
   .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
   ::selection{background:var(--accent);color:#fff;}
+  @media(max-width:600px){.wrap{padding:0 20px;}}
 
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
@@ -57,17 +58,57 @@
     border-bottom:1px solid var(--line);
   }
   nav{
-    max-width:1120px;margin:0 auto;padding:18px 32px;
+    max-width:1120px;margin:0 auto;padding:16px 32px;
     display:flex;align-items:center;justify-content:space-between;
+    gap:12px;
   }
-  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em;}
+  .logo{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em;
+    display:inline-flex;align-items:center;gap:9px;
+  }
   .logo span{color:var(--accent);}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;flex:none;
+    background:linear-gradient(155deg, var(--accent) 0%, #ff8a3d 100%);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:#fff;
+    letter-spacing:-0.03em;
+    box-shadow:0 4px 14px -4px rgba(255,68,51,0.55);
+  }
   .nav-links{display:flex;gap:8px;align-items:center;}
   .nav-links a{
     font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim);
     padding:8px 14px;border-radius:6px;transition:all .2s ease;
   }
   .nav-links a:hover{color:var(--text);background:var(--surface);}
+  .nav-toggle{
+    display:none;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:8px;border:1px solid var(--line);
+    background:transparent;cursor:pointer;flex:none;
+  }
+  .nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{
+    content:"";display:block;width:16px;height:2px;background:var(--text);
+    position:relative;transition:transform .2s ease, opacity .2s ease;
+  }
+  .nav-toggle span::before{position:absolute;top:-5px;}
+  .nav-toggle span::after{position:absolute;top:5px;}
+  .nav-toggle.open span{background:transparent;}
+  .nav-toggle.open span::before{transform:translateY(5px) rotate(45deg);}
+  .nav-toggle.open span::after{transform:translateY(-5px) rotate(-45deg);}
+  @media(max-width:719px){
+    .nav-toggle{display:inline-flex;}
+    .nav-links{
+      position:fixed;top:64px;left:0;right:0;z-index:49;
+      flex-direction:column;align-items:stretch;gap:2px;
+      background:var(--bg);border-bottom:1px solid var(--line);
+      padding:10px 20px 18px;
+      max-height:0;overflow:hidden;opacity:0;
+      transition:max-height .25s ease, opacity .2s ease;
+    }
+    .nav-links.open{max-height:320px;opacity:1;}
+    .nav-links a{padding:12px 10px;border-radius:8px;}
+    .nav-links a:hover{background:var(--surface-2);}
+  }
   .btn{
     font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
     padding:9px 16px;border-radius:6px;border:1px solid var(--line);
@@ -82,7 +123,23 @@
   @media(min-width:720px){.nav-cta{display:inline-flex;}}
 
   /* ---------- HERO ---------- */
-  .hero{position:relative;z-index:1;padding:88px 0 64px;}
+  .hero{position:relative;z-index:1;padding:88px 0 64px;overflow:hidden;}
+  .watermark{
+    position:absolute;top:50%;right:-2%;
+    transform:translateY(-50%);
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(160px,26vw,420px);
+    line-height:1;letter-spacing:-0.04em;
+    color:transparent;
+    -webkit-text-stroke:1.5px rgba(255,68,51,0.16);
+    background:linear-gradient(155deg, rgba(255,68,51,0.10), rgba(245,185,66,0.05));
+    -webkit-background-clip:text;background-clip:text;
+    pointer-events:none;user-select:none;z-index:0;
+    filter:drop-shadow(0 0 60px rgba(255,68,51,0.10));
+    white-space:nowrap;
+  }
+  .hero > .wrap{position:relative;z-index:1;}
+  @media(max-width:760px){.watermark{display:none;}}
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--green);
@@ -132,8 +189,22 @@
     padding:2px 8px;border-radius:4px;color:var(--text-dim);
   }
 
-  section{position:relative;z-index:1;padding:80px 0;border-top:1px solid var(--line);}
+  section{position:relative;z-index:1;padding:80px 0;border-top:1px solid var(--line);overflow:hidden;}
+  section > .wrap{position:relative;z-index:1;}
+  .watermark-sm{
+    font-size:clamp(70px,13vw,170px);
+    -webkit-text-stroke:1px rgba(255,68,51,0.09);
+    background:none;-webkit-text-fill-color:transparent;
+    filter:none;
+  }
+  .watermark.wm-left{left:-1%;right:auto;}
+  .watermark.wm-right{right:-1%;left:auto;}
   .section-head{margin-bottom:44px;}
+  @media(max-width:600px){
+    section{padding:56px 0;}
+    .section-head{margin-bottom:32px;}
+    .hero{padding:56px 0 44px !important;}
+  }
   .kicker{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--accent);margin-bottom:10px;display:block;}
   .section-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,36px);letter-spacing:-0.02em;}
   .section-desc{color:var(--text-dim);max-width:560px;margin-top:12px;font-size:15px;}
@@ -175,7 +246,7 @@
     padding:24px;transition:transform .25s ease, border-color .25s ease;
   }
   .proj-card:hover{transform:translateY(-3px);border-color:var(--accent-dim);}
-  .proj-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px;}
+  .proj-top{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:6px 10px;}
   .proj-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;}
   .proj-link{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text-faint);white-space:nowrap;}
   .proj-link:hover{color:var(--accent);}
@@ -198,7 +269,16 @@
   .contact{
     background:var(--surface);border:1px solid var(--line);border-radius:16px;
     padding:56px 40px;text-align:center;
+    position:relative;overflow:hidden;
   }
+  .contact .watermark{
+    top:auto;bottom:-8%;right:50%;transform:translateX(50%);
+    font-size:clamp(90px,18vw,220px);
+    -webkit-text-stroke:1px rgba(255,68,51,0.10);
+    background:none;-webkit-text-fill-color:transparent;
+  }
+  .contact > *{position:relative;z-index:1;}
+  @media(max-width:600px){.contact{padding:40px 22px;}}
   .contact h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(26px,4vw,38px);letter-spacing:-0.02em;margin-bottom:14px;}
   .contact p{color:var(--text-dim);max-width:480px;margin:0 auto 30px;}
   .contact-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
@@ -217,85 +297,69 @@
 
 <header>
   <nav>
-    <a href="#top" class="logo">manish<span>.</span>dev</a>
-    <div class="nav-links">
-      <a href="#work">/work</a>
-      <a href="#experience">/experience</a>
-      <a href="#stack">/stack</a>
-      <a href="#contact">/contact</a>
+    <a href="#top" class="logo"><span class="logo-mark">MT</span>manish<span>.</span>dev</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#stack">Skill</a>
+      <a href="#contact">Contact</a>
     </div>
     <a class="btn btn-primary nav-cta" id="downloadBtnNav">↓ Resume</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span>
+    </button>
   </nav>
 </header>
 
 <main id="top">
   <section class="hero" style="border-top:none;padding-top:64px;">
+    <div class="watermark" aria-hidden="true">MT</div>
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <span class="eyebrow">Open to new roles · Gurgaon, IN</span>
+          
           <h1>Building scalable web apps,<br> from <span class="accent">database</span> to <span class="accent">deploy</span>.</h1>
-          <p class="hero-sub">I'm Manish Tiwari, a Full Stack Developer with 4 years of experience shipping Laravel + React applications — admin panels, e-commerce platforms and CMS-driven sites, end to end.</p>
+          <p class="hero-sub">I'm Manish Tiwari, a Full Stack Developer with 4 years of experience Laravel + React applications — admin panels, e-commerce platforms,CRM,ERP system,inventory system and CMS-driven sites, end to end.</p>
           <div class="hero-actions">
             <a href="#work" class="btn btn-primary">View Work →</a>
             <a class="btn btn-ghost" id="downloadBtnHero">↓ Download Resume</a>
           </div>
           <div class="hero-meta">
-            <span><strong>4 yrs</strong> experience</span>
+            <span><strong>4 years</strong> experience</span>
             <span><strong>11+</strong> projects shipped</span>
-            <span><strong>Laravel · React · Next.js</strong> core stack</span>
+            <span><strong>Laravel · React · Next.js</strong> full stack</span>
           </div>
         </div>
 
-        <div class="api-card reveal">
-          <div class="api-card-head">
-            <div class="api-dots"><span></span><span></span><span></span></div>
-            <span class="api-route">GET /api/manish</span>
-            <span class="api-status">200 OK</span>
-          </div>
-          <div class="api-body">
-<span class="brace">{</span><br>
-&nbsp;&nbsp;<span class="k">"name"</span>: <span class="s">"Manish Tiwari"</span>,<br>
-&nbsp;&nbsp;<span class="k">"role"</span>: <span class="s">"Full Stack Developer"</span>,<br>
-&nbsp;&nbsp;<span class="k">"experience_years"</span>: <span class="n">4</span>,<br>
-&nbsp;&nbsp;<span class="k">"location"</span>: <span class="s">"Gurgaon, India"</span>,<br>
-&nbsp;&nbsp;<span class="k">"stack"</span>: <span class="brace">[</span><br>
-<div class="tag-row">
-  <span class="tag">Laravel</span><span class="tag">PHP</span><span class="tag">React.js</span><span class="tag">Next.js</span><span class="tag">MySQL</span>
-</div>
-&nbsp;&nbsp;<span class="brace">]</span>,<br>
-&nbsp;&nbsp;<span class="k">"currently_learning"</span>: <span class="s">"Node.js"</span><br>
-<span class="brace">}</span>
-          </div>
-        </div>
-      </div>
+        
     </div>
   </section>
 
   <section id="stack">
+    <div class="watermark watermark-sm wm-right" aria-hidden="true">MT</div>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="kicker">// 01 — stack</span>
+        
         <h2 class="section-title">What I build with</h2>
-        <p class="section-desc">A backend-first stack, paired with modern front ends — chosen for reliability at scale, not novelty.</p>
+        <p class="section-desc">A backend-full stack, paired with modern front ends — chosen for reliability at scale.</p>
       </div>
       <div class="stack-grid">
         <div class="stack-card reveal">
-          <div class="use"><span class="kw">use</span> App\Backend;</div>
+          
           <div class="stack-list">
-            <span class="pill">PHP</span><span class="pill">Laravel</span><span class="pill">CodeIgniter 3</span><span class="pill">REST APIs</span><span class="pill">RBAC</span>
+            <span class="pill">PHP</span><span class="pill">Laravel</span><span class="pill">CodeIgniter 3</span><span class="pill">REST APIs</span>
           </div>
         </div>
         <div class="stack-card reveal">
-          <div class="use"><span class="kw">import</span> <span class="imp">Frontend</span> from 'client';</div>
+          
           <div class="stack-list">
             <span class="pill">React.js</span><span class="pill">Next.js</span><span class="pill">jQuery</span><span class="pill">HTML/CSS</span><span class="pill">Livewire</span>
           </div>
         </div>
         <div class="stack-card reveal">
-          <div class="use"><span class="kw">require</span>('./tooling');</div>
+          
           <div class="stack-list">
-            <span class="pill">MySQL</span><span class="pill">Git</span><span class="pill">Admin Panels</span><span class="pill">Node.js (learning)</span>
+            <span class="pill">MySQL</span><span class="pill">Git</span><span class="pill">Node.js (learning)</span>
           </div>
         </div>
       </div>
@@ -303,17 +367,18 @@
   </section>
 
   <section id="experience">
+    <div class="watermark watermark-sm wm-left" aria-hidden="true">MT</div>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="kicker">// 02 — experience</span>
+        
         <h2 class="section-title">Where I've worked</h2>
       </div>
       <div class="timeline">
         <div class="tl-item reveal">
           <div class="tl-dot"></div>
-          <div class="tl-date">Nov 2025 — May 2026</div>
-          <div class="tl-role">Full Stack Developer</div>
-          <div class="tl-company">Sterco Digitex Pvt. Ltd.</div>
+          <div class="tl-date">Nov 2025 — Present</div>
+          <div class="tl-role">Senior Php Developer</div>
+          <div class="tl-company">Sterco Digitex Pvt. Ltd. Noida U.P</div>
           <ul class="tl-desc">
             <li>Developed and maintained full stack web applications using Laravel and React.js.</li>
             <li>Built and integrated REST APIs to support dynamic front-end functionality.</li>
@@ -325,7 +390,7 @@
           <div class="tl-role">Senior PHP Developer</div>
           <div class="tl-company">Cotgin Analytics Pvt. Ltd., Punjabi Bagh, Delhi</div>
           <ul class="tl-desc">
-            <li>Led PHP and Laravel development for client web applications and internal tools.</li>
+            <li>PHP and Laravel development for client web applications and crm,inventory system,internal tools.</li>
             <li>Optimized application performance and database queries to improve reliability at scale.</li>
           </ul>
         </div>
@@ -344,11 +409,12 @@
   </section>
 
   <section id="work">
+    <div class="watermark watermark-sm wm-right" aria-hidden="true">MT</div>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="kicker">// 03 — work</span>
-        <h2 class="section-title">Selected projects</h2>
-        <p class="section-desc">University platforms, e-commerce systems, ERPs and admin panels — mostly built solo on Laravel, paired with React or Next.js front ends.</p>
+        
+        <h2 class="section-title">Projects</h2>
+        <p class="section-desc">University platforms, e-commerce systems, ,crm,erp systems and inventory ,admin panels — mostly built solo on Laravel, paired with React or Next.js front ends.</p>
       </div>
       <div class="proj-grid">
         <div class="proj-card reveal">
@@ -357,7 +423,7 @@
           <div class="proj-tags"><span>Laravel 12</span><span>Livewire</span><span>CMS</span></div>
         </div>
         <div class="proj-card reveal">
-          <div class="proj-top"><span class="proj-name">Rayartwala</span><span class="proj-link">E-commerce</span></div>
+          <div class="proj-top"><span class="proj-name">Rayartwala</span><span class="proj-link">rayartwala.com</span></div>
           <p class="proj-desc">Backend logic and dynamic APIs in Laravel, integrated with a Next.js frontend for a full e-commerce platform.</p>
           <div class="proj-tags"><span>Laravel</span><span>Next.js</span><span>REST API</span></div>
         </div>
@@ -387,7 +453,7 @@
           <div class="proj-tags"><span>Laravel</span><span>Dynamic UI</span></div>
         </div>
         <div class="proj-card reveal">
-          <div class="proj-top"><span class="proj-name">KK Wagh & RITM Universities</span><span class="proj-link">2 sites</span></div>
+          <div class="proj-top"><span class="proj-name">KK Wagh & RITM Universities</span><span class="proj-link">kkwagh.edu.in, ritm.ac.in</span></div>
           <p class="proj-desc">Multi-group university websites with school/department pages, CMS pages, banners and blogs.</p>
           <div class="proj-tags"><span>Laravel 12</span><span>Livewire</span></div>
         </div>
@@ -396,10 +462,11 @@
   </section>
 
   <section id="education">
+    <div class="watermark watermark-sm wm-left" aria-hidden="true">MT</div>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="kicker">// 04 — education</span>
-        <h2 class="section-title">Background</h2>
+        
+        <h2 class="section-title">Education</h2>
       </div>
       <div class="edu-grid">
         <div class="edu-card reveal">
@@ -419,6 +486,7 @@
   <section id="contact">
     <div class="wrap">
       <div class="contact reveal">
+        <div class="watermark" aria-hidden="true">MT</div>
         <h2>Let's build something reliable.</h2>
         <p>Open to full-time roles and freelance Laravel/React projects. Usually replies within a day.</p>
         <div class="contact-actions">
@@ -444,6 +512,24 @@
 </footer>
 
 <script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if(navToggle && navLinks){
+    navToggle.addEventListener('click', ()=>{
+      const open = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+
   // Reveal on scroll
   const items = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries)=>{
